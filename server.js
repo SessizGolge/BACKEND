@@ -1,36 +1,37 @@
-const fs = require('fs');
-const path = require('path');
-const express = require('express');
-const cors = require('cors');
-const app = express();
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const cors = require("cors");
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 
-const SECRET_KEY = "musabsecret123"; // Sadece backend'te duruyor
+const SECRET_KEY = "musabsecret123"; // kimse görmemeli
 
-// GET posts → frontend için
-app.get("/posts", (req, res) => {
-  const postsPath = path.join(__dirname, "jsons", "posts.json");
-  const posts = JSON.parse(fs.readFileSync(postsPath, "utf-8"));
-  res.json(posts);
-});
-
-// POST /addPost → dev mod için
+// Post ekleme endpoint
 app.post("/addPost", (req, res) => {
   const { key, title, description, image, link } = req.body;
 
-  if(key !== SECRET_KEY) return res.status(403).json({ status: "error", message: "Unauthorized" });
+  if (key !== SECRET_KEY) {
+    return res.status(403).json({ status: "error", message: "Unauthorized" });
+  }
 
   const postsPath = path.join(__dirname, "jsons", "posts.json");
-  const posts = JSON.parse(fs.readFileSync(postsPath, "utf-8"));
+
+  let posts = [];
+  try {
+    posts = JSON.parse(fs.readFileSync(postsPath, "utf-8"));
+  } catch (e) {
+    console.log("posts.json boş veya yok, yeni oluşturuluyor.");
+  }
 
   const newPost = {
-    img: image || "",
-    text: description || "",
+    img: image,
+    text: description,
     date: new Date().toDateString(),
-    link: link || "",
-    title: title || ""
+    link: link,
+    title: title
   };
 
   posts.unshift(newPost);
@@ -39,4 +40,12 @@ app.post("/addPost", (req, res) => {
   res.json({ status: "ok", post: newPost });
 });
 
-app.listen(3000, () => console.log("Backend running on port 3000"));
+// Şifre kontrol endpoint
+app.post("/checkKey", (req, res) => {
+  const { key } = req.body;
+  if (key === SECRET_KEY) return res.json({ status: "ok" });
+  res.status(403).json({ status: "error" });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
