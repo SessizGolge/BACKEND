@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dev Admin | Add Post</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="admin-container">
+    <h1>Add a New Post</h1>
+
+    <form id="postForm">
+      <input type="text" id="title" placeholder="Title" required>
+      <input type="text" id="description" placeholder="Description" required>
+      <input type="url" id="image" placeholder="Image URL">
+      <input type="url" id="link" placeholder="External Link">
+
+      <input type="password" id="key" placeholder="Secret Key" required>
+
+      <button type="submit">Add Post</button>
+    </form>
+
+    <p id="status"></p>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+.admin-container {
+  max-width: 500px;
+  margin: 150px auto;
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  text-align: center;
+  color: #fff;
+}
+
+.admin-container input, 
+.admin-container button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
+
+.admin-container button {
+  background: #e754ff;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-container button:hover {
+  background: #ff66ff;
+}
